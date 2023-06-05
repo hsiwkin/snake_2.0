@@ -1,9 +1,9 @@
 import { startInputProcessing } from './inputProcessing';
-import { drawCurrentPosition } from './graphics';
+import { Snake } from './snake';
 
 const startGame = () => {
-  drawCurrentPosition();
-  startInputProcessing();
+  const snake = new Snake();
+  startInputProcessing(snake);
 };
 
 startGame();

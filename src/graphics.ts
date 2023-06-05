@@ -1,7 +1,11 @@
 import { randomColor } from './utils';
-import { currentPosition } from './inputProcessing';
 
 let ctx: CanvasRenderingContext2D;
+const canvasOptions = {
+  width: 300,
+  height: 300,
+  scale: 20,
+};
 
 const initializeContext = () => {
   if (!document) {
@@ -9,6 +13,8 @@ const initializeContext = () => {
   }
 
   const canvas = document.getElementById('game') as HTMLCanvasElement;
+  canvas.setAttribute('width', String(canvasOptions.width));
+  canvas.setAttribute('height', String(canvasOptions.height));
   const ctxCandidate = canvas.getContext('2d');
 
   if (!ctxCandidate) {
@@ -25,12 +31,47 @@ export const getContext = (): CanvasRenderingContext2D => {
   return ctx;
 };
 
-export const draw = (x: number, y: number) => {
-  const ctx = getContext();
-  const scale = 20;
-  ctx.fillStyle = randomColor();
-  ctx.fillRect(x * scale, y * scale, scale, scale);
+const withinBoundaries = (
+  x: number,
+  y: number,
+  width: number,
+  height: number
+): boolean => {
+  if (x + width > canvasOptions.width) {
+    return false;
+  }
+
+  if (y + height > canvasOptions.height) {
+    return false;
+  }
+
+  return true;
 };
-export const drawCurrentPosition = () => {
-  draw(currentPosition[0], currentPosition[1]);
+
+const getRectParams = (x: number, y: number) => {
+  return [
+    x * canvasOptions.scale,
+    y * canvasOptions.scale,
+    canvasOptions.scale,
+    canvasOptions.scale,
+  ] as const;
+};
+
+export const canDraw = (x: number, y: number): boolean => {
+  return withinBoundaries(...getRectParams(x, y));
+};
+
+export const draw = (x: number, y: number): boolean => {
+  const ctx = getContext();
+
+  const rectParams = getRectParams(x, y);
+
+  if (withinBoundaries(...rectParams)) {
+    ctx.fillStyle = randomColor();
+    ctx.fillRect(...rectParams);
+    return true;
+  } else {
+    console.error('You have tried to draw an object outside of game board');
+    return false;
+  }
 };

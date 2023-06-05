@@ -1,34 +1,56 @@
-import { currentPosition } from './inputProcessing';
-import { draw } from './graphics';
+import { canDraw, draw } from './graphics';
 
 export class Snake {
-  private readonly currentPosition: [number, number];
+  private _positionX: number;
+  private _positionY: number;
 
-  private drawCurrentPosition() {
-    draw(currentPosition[0], currentPosition[1]);
+  private set positionX(value: number) {
+    if (canDraw(this.positionX + value, this.positionY)) {
+      this._positionX += value;
+    }
+  }
+
+  private set positionY(value: number) {
+    if (canDraw(this.positionX, this.positionY + value)) {
+      this._positionY += value;
+    }
+  }
+
+  private get positionX() {
+    return this._positionX;
+  }
+
+  private get positionY() {
+    return this._positionY;
+  }
+
+  private drawCurrentPosition(): boolean {
+    return draw(this.positionX, this.positionY);
   }
 
   constructor() {
-    this.currentPosition = [0, 0];
+    this._positionX = 0;
+    this._positionY = 0;
+    this.drawCurrentPosition();
   }
 
   moveUp() {
-    this.currentPosition[1]--;
+    this.positionY = -1;
     this.drawCurrentPosition();
   }
 
   moveDown() {
-    this.currentPosition[1]++;
+    this.positionY = 1;
     this.drawCurrentPosition();
   }
 
   moveLeft() {
-    this.currentPosition[0]--;
+    this.positionX = -1;
     this.drawCurrentPosition();
   }
 
   moveRight() {
-    this.currentPosition[0]++;
+    this.positionX = 1;
     this.drawCurrentPosition();
   }
 }

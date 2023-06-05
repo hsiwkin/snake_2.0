@@ -1,40 +1,29 @@
 import { Direction } from './types';
 import { isUndefined } from './typeguards';
-import { drawCurrentPosition } from './graphics';
-
-export const currentPosition = [0, 0];
+import { Snake } from './snake';
 
 const UP_CODES = ['ArrowUp', 'KeyW'];
 const DOWN_CODES = ['ArrowDown', 'KeyS'];
 const LEFT_CODES = ['ArrowLeft', 'KeyA'];
 const RIGHT_CODES = ['ArrowRight', 'KeyD'];
 
-const processUp = () => {
-  currentPosition[1]--;
-  drawCurrentPosition();
-};
-const processDown = () => {
-  currentPosition[1]++;
-  drawCurrentPosition();
-};
-const processLeft = () => {
-  currentPosition[0]--;
-  drawCurrentPosition();
-};
-const processRight = () => {
-  currentPosition[0]++;
-  drawCurrentPosition();
-};
-
-const directionMap = {
-  [Direction.Right]: processRight,
-  [Direction.Left]: processLeft,
-  [Direction.Up]: processUp,
-  [Direction.Down]: processDown,
-};
-
-const processDirection = (direction: Direction): void => {
-  directionMap[direction]();
+const processDirection = (snake: Snake, direction: Direction): void => {
+  switch (direction) {
+    case Direction.Left:
+      snake.moveLeft();
+      break;
+    case Direction.Right:
+      snake.moveRight();
+      break;
+    case Direction.Up:
+      snake.moveUp();
+      break;
+    case Direction.Down:
+      snake.moveDown();
+      break;
+    default:
+      break;
+  }
 };
 
 const getDirection = (evt: KeyboardEvent): Direction | undefined => {
@@ -59,9 +48,9 @@ const getDirection = (evt: KeyboardEvent): Direction | undefined => {
   return undefined;
 };
 
-export const startInputProcessing = () => {
+export const startInputProcessing = (snake: Snake) => {
   document.addEventListener('keydown', (evt) => {
     const direction = getDirection(evt);
-    !isUndefined(direction) && processDirection(direction);
+    !isUndefined(direction) && processDirection(snake, direction);
   });
 };

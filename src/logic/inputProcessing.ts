@@ -1,5 +1,5 @@
-import { Direction } from './types';
-import { isUndefined } from './typeguards';
+import { Direction } from '../types';
+import { isUndefined } from '../typeguards';
 import { Snake } from './snake';
 
 const UP_CODES = ['ArrowUp', 'KeyW'];

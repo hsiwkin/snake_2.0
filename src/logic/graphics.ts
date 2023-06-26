@@ -31,7 +31,7 @@ export const getContext = (): CanvasRenderingContext2D => {
   return ctx;
 };
 
-const getRectParams = (x: number, y: number) => {
+const getPixelParams = (x: number, y: number) => {
   return [
     x * canvasOptions.scale,
     y * canvasOptions.scale,
@@ -40,17 +40,33 @@ const getRectParams = (x: number, y: number) => {
   ] as const;
 };
 
-export const draw = (x: number, y: number) => {
+export const drawRect = (x: number, y: number) => {
   const ctx = getContext();
-  const rectParams = getRectParams(x, y);
+  const rectParams = getPixelParams(x, y);
 
   ctx.fillStyle = randomColor();
   ctx.fillRect(...rectParams);
 };
 
-export const clear = (x: number, y: number) => {
+export const drawCircle = (x: number, y: number) => {
+  const ctx = getContext();
+  const rectParams = getPixelParams(x, y);
+
+  ctx.fillStyle = randomColor();
+  ctx.beginPath();
+  ctx.arc(
+    rectParams[0] + canvasOptions.scale / 2,
+    rectParams[1] + canvasOptions.scale / 2,
+    canvasOptions.scale / 2,
+    0,
+    2 * Math.PI
+  );
+  ctx.fill();
+};
+
+export const clearRect = (x: number, y: number) => {
   const ctx = getContext();
 
-  const rectParams = getRectParams(x, y);
+  const rectParams = getPixelParams(x, y);
   ctx.clearRect(...rectParams);
 };

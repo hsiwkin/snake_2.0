@@ -1,4 +1,4 @@
-import { clear, draw } from './graphics';
+import { clearRect, drawRect } from './graphics';
 import { Board, BoardState } from './board';
 
 export class Snake {
@@ -7,7 +7,7 @@ export class Snake {
   constructor() {
     const startingPoint = [0, 0] as const;
     this.body.push(startingPoint);
-    draw(...startingPoint);
+    drawRect(...startingPoint);
   }
 
   get headIndex() {
@@ -26,13 +26,14 @@ export class Snake {
 
     if (newPositionInfo === BoardState.food) {
       this.body.push(newPoint);
-      draw(...newPoint);
+      drawRect(...newPoint);
       Board.getInstance().generateFood();
+      return;
     }
 
     // empty position
-    draw(...newPoint);
-    clear(tail[0], tail[1]);
+    drawRect(...newPoint);
+    clearRect(tail[0], tail[1]);
     this.body.shift();
     this.body.push(newPoint);
   }

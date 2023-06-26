@@ -1,4 +1,5 @@
 import { Position } from '../types';
+import { drawCircle } from './graphics';
 
 export enum BoardState {
   empty,
@@ -54,6 +55,7 @@ export class Board {
     const y = Math.floor(Math.random() * this.height);
 
     this.setFoodPosition(x, y);
+    drawCircle(x, y);
   }
 
   positionInfo(x: number, y: number): BoardState {

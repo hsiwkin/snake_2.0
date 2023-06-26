@@ -1,56 +1,43 @@
-import { canDraw, draw } from './graphics';
+import { canDraw, clear, draw } from './graphics';
 
 export class Snake {
-  private _positionX: number;
-  private _positionY: number;
-
-  private set positionX(value: number) {
-    if (canDraw(this.positionX + value, this.positionY)) {
-      this._positionX += value;
-    }
-  }
-
-  private set positionY(value: number) {
-    if (canDraw(this.positionX, this.positionY + value)) {
-      this._positionY += value;
-    }
-  }
-
-  private get positionX() {
-    return this._positionX;
-  }
-
-  private get positionY() {
-    return this._positionY;
-  }
-
-  private drawCurrentPosition(): boolean {
-    return draw(this.positionX, this.positionY);
-  }
+  body: (readonly number[])[] = [];
 
   constructor() {
-    this._positionX = 0;
-    this._positionY = 0;
-    this.drawCurrentPosition();
+    const startingPoint = [0, 0] as const;
+    this.body.push(startingPoint);
+    draw(...startingPoint);
+  }
+
+  get headIndex() {
+    return this.body.length - 1;
+  }
+
+  move(dirX: number, dirY: number) {
+    const head = this.body[this.headIndex];
+    const tail = this.body[0];
+    const newPoint = [head[0] + dirX, head[1] + dirY] as const;
+    if (canDraw(...newPoint)) {
+      draw(...newPoint);
+      clear(tail[0], tail[1]);
+      this.body.shift();
+      this.body.push(newPoint);
+    }
   }
 
   moveUp() {
-    this.positionY = -1;
-    this.drawCurrentPosition();
+    this.move(0, -1);
   }
 
   moveDown() {
-    this.positionY = 1;
-    this.drawCurrentPosition();
+    this.move(0, 1);
   }
 
   moveLeft() {
-    this.positionX = -1;
-    this.drawCurrentPosition();
+    this.move(-1, 0);
   }
 
   moveRight() {
-    this.positionX = 1;
-    this.drawCurrentPosition();
+    this.move(1, 0);
   }
 }

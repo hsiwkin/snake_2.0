@@ -58,6 +58,9 @@ const getRectParams = (x: number, y: number) => {
 };
 
 export const canDraw = (x: number, y: number): boolean => {
+  if (x < 0 || y < 0) {
+    return false;
+  }
   return withinBoundaries(...getRectParams(x, y));
 };
 
@@ -72,6 +75,20 @@ export const draw = (x: number, y: number): boolean => {
     return true;
   } else {
     console.error('You have tried to draw an object outside of game board');
+    return false;
+  }
+};
+
+export const clear = (x: number, y: number): boolean => {
+  const ctx = getContext();
+
+  const rectParams = getRectParams(x, y);
+
+  if (withinBoundaries(...rectParams)) {
+    ctx.clearRect(...rectParams);
+    return true;
+  } else {
+    console.error('You have tried to clear an object outside of game board');
     return false;
   }
 };

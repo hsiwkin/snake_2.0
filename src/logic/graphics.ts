@@ -1,9 +1,8 @@
 import { randomColor } from './utils';
+import { Board } from './board';
 
 let ctx: CanvasRenderingContext2D;
 const canvasOptions = {
-  width: 300,
-  height: 300,
   scale: 20,
 };
 
@@ -13,8 +12,9 @@ const initializeContext = () => {
   }
 
   const canvas = document.getElementById('game') as HTMLCanvasElement;
-  canvas.setAttribute('width', String(canvasOptions.width));
-  canvas.setAttribute('height', String(canvasOptions.height));
+  const { width, height } = Board.getInstance();
+  canvas.setAttribute('width', String(canvasOptions.scale * width));
+  canvas.setAttribute('height', String(canvasOptions.scale * height));
   const ctxCandidate = canvas.getContext('2d');
 
   if (!ctxCandidate) {
@@ -31,23 +31,6 @@ export const getContext = (): CanvasRenderingContext2D => {
   return ctx;
 };
 
-const withinBoundaries = (
-  x: number,
-  y: number,
-  width: number,
-  height: number
-): boolean => {
-  if (x + width > canvasOptions.width) {
-    return false;
-  }
-
-  if (y + height > canvasOptions.height) {
-    return false;
-  }
-
-  return true;
-};
-
 const getRectParams = (x: number, y: number) => {
   return [
     x * canvasOptions.scale,
@@ -57,38 +40,17 @@ const getRectParams = (x: number, y: number) => {
   ] as const;
 };
 
-export const canDraw = (x: number, y: number): boolean => {
-  if (x < 0 || y < 0) {
-    return false;
-  }
-  return withinBoundaries(...getRectParams(x, y));
+export const draw = (x: number, y: number) => {
+  const ctx = getContext();
+  const rectParams = getRectParams(x, y);
+
+  ctx.fillStyle = randomColor();
+  ctx.fillRect(...rectParams);
 };
 
-export const draw = (x: number, y: number): boolean => {
+export const clear = (x: number, y: number) => {
   const ctx = getContext();
 
   const rectParams = getRectParams(x, y);
-
-  if (withinBoundaries(...rectParams)) {
-    ctx.fillStyle = randomColor();
-    ctx.fillRect(...rectParams);
-    return true;
-  } else {
-    console.error('You have tried to draw an object outside of game board');
-    return false;
-  }
-};
-
-export const clear = (x: number, y: number): boolean => {
-  const ctx = getContext();
-
-  const rectParams = getRectParams(x, y);
-
-  if (withinBoundaries(...rectParams)) {
-    ctx.clearRect(...rectParams);
-    return true;
-  } else {
-    console.error('You have tried to clear an object outside of game board');
-    return false;
-  }
+  ctx.clearRect(...rectParams);
 };

@@ -1,4 +1,5 @@
-import { canDraw, clear, draw } from './graphics';
+import { clear, draw } from './graphics';
+import { Board, BoardState } from './board';
 
 export class Snake {
   body: (readonly number[])[] = [];
@@ -17,12 +18,23 @@ export class Snake {
     const head = this.body[this.headIndex];
     const tail = this.body[0];
     const newPoint = [head[0] + dirX, head[1] + dirY] as const;
-    if (canDraw(...newPoint)) {
-      draw(...newPoint);
-      clear(tail[0], tail[1]);
-      this.body.shift();
-      this.body.push(newPoint);
+
+    const newPositionInfo = Board.getInstance().positionInfo(...newPoint);
+    if (newPositionInfo === BoardState.notAvailable) {
+      return;
     }
+
+    if (newPositionInfo === BoardState.food) {
+      this.body.push(newPoint);
+      draw(...newPoint);
+      Board.getInstance().generateFood();
+    }
+
+    // empty position
+    draw(...newPoint);
+    clear(tail[0], tail[1]);
+    this.body.shift();
+    this.body.push(newPoint);
   }
 
   moveUp() {

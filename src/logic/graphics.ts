@@ -1,4 +1,4 @@
-import { randomColor } from './utils';
+import { randomColor } from '../utils/randomColor';
 import { Board } from './board';
 
 let ctx: CanvasRenderingContext2D;
@@ -64,9 +64,14 @@ export const drawCircle = (x: number, y: number) => {
   ctx.fill();
 };
 
-export const clearRect = (x: number, y: number) => {
+export const clearBoard = () => {
   const ctx = getContext();
+  const { width, height } = Board.getInstance();
 
-  const rectParams = getPixelParams(x, y);
-  ctx.clearRect(...rectParams);
+  ctx.clearRect(
+    0,
+    0,
+    width * canvasOptions.scale,
+    height * canvasOptions.scale
+  );
 };

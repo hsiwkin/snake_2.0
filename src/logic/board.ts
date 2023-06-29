@@ -1,5 +1,6 @@
 import { Position } from '../types';
-import { drawCircle } from './graphics';
+import { Point } from '../utils/point';
+import { clearBoard } from './graphics';
 
 export enum BoardState {
   empty,
@@ -38,6 +39,10 @@ export class Board {
     return Board.instance;
   }
 
+  clear() {
+    clearBoard();
+  }
+
   private isFoodPosition(x: number, y: number): boolean {
     if (!this.food) {
       return false;
@@ -46,19 +51,11 @@ export class Board {
     return this.food[0] === x && this.food[1] === y;
   }
 
-  private setFoodPosition(x: number, y: number) {
+  public setFoodPosition(x: number, y: number) {
     this.food = [x, y];
   }
 
-  generateFood() {
-    const x = Math.floor(Math.random() * this.width);
-    const y = Math.floor(Math.random() * this.height);
-
-    this.setFoodPosition(x, y);
-    drawCircle(x, y);
-  }
-
-  positionInfo(x: number, y: number): BoardState {
+  positionInfo({ x, y }: Point): BoardState {
     if (x < 0 || y < 0 || x >= this.width || y >= this.height) {
       return BoardState.notAvailable;
     }

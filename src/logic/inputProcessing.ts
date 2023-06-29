@@ -1,6 +1,6 @@
 import { Direction } from '../types';
 import { isUndefined } from '../typeguards';
-import { Snake } from './snake';
+import { Snake } from '../gameobjects/snake';
 
 const UP_CODES = ['ArrowUp', 'KeyW'];
 const DOWN_CODES = ['ArrowDown', 'KeyS'];

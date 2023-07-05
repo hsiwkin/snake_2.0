@@ -6,7 +6,7 @@ const canvasOptions = {
   scale: 20,
 };
 
-const initializeContext = () => {
+export const initializeContext = () => {
   if (!document) {
     throw new Error('document is NOT defined');
   }

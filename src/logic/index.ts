@@ -2,9 +2,11 @@ import { startInputProcessing } from './inputProcessing';
 import { Snake } from '../gameobjects/snake';
 import { Board } from './board';
 import { Food } from '../gameobjects/food';
+import { initializeContext } from './graphics';
 
 const startGame = () => {
   Board.initializeBoard();
+  initializeContext();
   const snake = new Snake();
   const food = new Food();
 
@@ -14,10 +16,9 @@ const startGame = () => {
     food.draw();
   };
 
-  snake.on('redraw', () => drawGame());
-  snake.on('foodEaten', () => food.regeneratePosition());
-  food.on('redraw', () => drawGame());
-
+  snake.addEventListener('foodEaten', () => food.regeneratePosition());
+  snake.addEventListener('redraw', () => drawGame());
+  food.addEventListener('redraw', () => drawGame());
   startInputProcessing(snake);
 };
 

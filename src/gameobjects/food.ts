@@ -1,9 +1,8 @@
 import { drawCircle } from '../logic/graphics';
 import { Board } from '../logic/board';
 import { Point } from '../utils/point';
-import { EventEmitter } from 'events';
 
-export class Food extends EventEmitter {
+export class Food extends EventTarget {
   public location!: Point;
 
   constructor() {
@@ -26,6 +25,6 @@ export class Food extends EventEmitter {
     const y = Math.floor(Math.random() * height);
 
     this.location = new Point(x, y);
-    this.emit('redraw');
+    this.dispatchEvent(new Event('redraw'));
   }
 }

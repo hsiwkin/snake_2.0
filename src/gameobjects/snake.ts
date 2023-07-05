@@ -1,9 +1,8 @@
 import { Board, BoardState } from '../logic/board';
 import { Point } from '../utils/point';
-import { EventEmitter } from 'events';
 import { drawRect } from '../logic/graphics';
 
-export class Snake extends EventEmitter {
+export class Snake extends EventTarget {
   body: Point[] = [];
 
   constructor() {
@@ -35,7 +34,7 @@ export class Snake extends EventEmitter {
     if (newPositionInfo === BoardState.food) {
       this.body.push(newPoint);
       this.triggerRedraw();
-      this.emit('foodEaten');
+      this.dispatchEvent(new Event('foodEaten'));
       return;
     }
 
@@ -62,6 +61,6 @@ export class Snake extends EventEmitter {
   }
 
   triggerRedraw() {
-    this.emit('redraw');
+    this.dispatchEvent(new Event('redraw'));
   }
 }

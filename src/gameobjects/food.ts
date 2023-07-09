@@ -11,11 +11,9 @@ export class Food extends EventTarget {
   }
 
   draw() {
-    const { setFoodPosition } = Board.getInstance();
     const { x, y } = this.location;
 
     drawCircle(x, y);
-    setFoodPosition(x, y);
   }
 
   regeneratePosition(): void {

@@ -1,6 +1,7 @@
-import { Position } from '../types';
 import { Point } from '../utils/point';
 import { clearBoard } from './graphics';
+import { Food } from '../gameobjects/food';
+import { Snake } from '../gameobjects/snake';
 
 export enum BoardState {
   empty,
@@ -11,7 +12,8 @@ export enum BoardState {
 const DEFAULT_SIZE = 15;
 
 export class Board {
-  private food?: Position;
+  private food?: Food;
+  private snake?: Snake;
   private static instance: Board;
   private constructor(private _width: number, private _height: number) {}
 
@@ -27,7 +29,11 @@ export class Board {
     width: number = DEFAULT_SIZE,
     height: number = DEFAULT_SIZE
   ): Board {
-    return (Board.instance = new Board(width, height));
+    Board.instance = new Board(width, height);
+    Board.instance.food = new Food();
+    Board.instance.snake = new Snake();
+
+    return Board.instance;
   }
 
   static getInstance(): Board {
@@ -39,6 +45,13 @@ export class Board {
     return Board.instance;
   }
 
+  getGameObjects() {
+    return {
+      snake: this.snake as Snake,
+      food: this.food as Food,
+    };
+  }
+
   clear() {
     clearBoard();
   }
@@ -48,11 +61,7 @@ export class Board {
       return false;
     }
 
-    return this.food[0] === x && this.food[1] === y;
-  }
-
-  public setFoodPosition(x: number, y: number) {
-    this.food = [x, y];
+    return this.food.location.x === x && this.food.location.y === y;
   }
 
   positionInfo({ x, y }: Point): BoardState {

@@ -1,9 +1,11 @@
 import { Board, BoardState } from '../logic/board';
 import { Point } from '../utils/point';
 import { drawRect } from '../logic/graphics';
+import { Direction } from '../types';
 
 export class Snake extends EventTarget {
-  body: Point[] = [];
+  private body: Point[] = [];
+  private _direction?: Direction;
 
   constructor() {
     super();
@@ -14,6 +16,13 @@ export class Snake extends EventTarget {
 
   get headIndex() {
     return this.body.length - 1;
+  }
+
+  set direction(value: Direction | undefined) {
+    if (value === undefined) {
+      return;
+    }
+    this._direction = value;
   }
 
   draw() {
@@ -44,20 +53,50 @@ export class Snake extends EventTarget {
     this.triggerRedraw();
   }
 
+  autoMove() {
+    if (this._direction === undefined) {
+      return;
+    }
+
+    if (this._direction === Direction.Up) {
+      this.moveUp();
+      return;
+    }
+
+    if (this._direction === Direction.Down) {
+      this.moveDown();
+      return;
+    }
+
+    if (this._direction === Direction.Left) {
+      this.moveLeft();
+      return;
+    }
+
+    if (this._direction === Direction.Right) {
+      this.moveRight();
+      return;
+    }
+  }
+
   moveUp() {
     this.move(0, -1);
+    this._direction = Direction.Up;
   }
 
   moveDown() {
     this.move(0, 1);
+    this._direction = Direction.Down;
   }
 
   moveLeft() {
     this.move(-1, 0);
+    this._direction = Direction.Left;
   }
 
   moveRight() {
     this.move(1, 0);
+    this._direction = Direction.Right;
   }
 
   triggerRedraw() {

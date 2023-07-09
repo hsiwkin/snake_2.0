@@ -19,6 +19,8 @@ const startGame = () => {
 
   startInputProcessing(snake);
   drawGame();
+
+  setInterval(() => snake.autoMove(), 200);
 };
 
 startGame();

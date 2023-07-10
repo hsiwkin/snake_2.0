@@ -2,14 +2,15 @@ import { Board, BoardState } from '../logic/board';
 import { Point } from '../utils/point';
 import { drawRect } from '../logic/graphics';
 import { Direction } from '../types';
+import { GameObject } from './partials/gameObject.class';
 
 export class Snake extends EventTarget {
-  private body: Point[] = [];
+  private body: GameObject[] = [];
   private _direction?: Direction;
 
   constructor() {
     super();
-    const startingPoint = new Point(0, 0);
+    const startingPoint = new GameObject(new Point(0, 0));
     this.body.push(startingPoint);
     this.triggerRedraw();
   }
@@ -26,13 +27,13 @@ export class Snake extends EventTarget {
   }
 
   draw() {
-    for (const { x, y } of this.body) {
-      drawRect(x, y);
+    for (const part of this.body) {
+      drawRect(part.location.x, part.location.y, part.color);
     }
   }
 
   move(dirX: number, dirY: number) {
-    const head = this.body[this.headIndex];
+    const head = this.body[this.headIndex].location;
     const newPoint = new Point(head.x + dirX, head.y + dirY);
 
     const newPositionInfo = Board.getInstance().positionInfo(newPoint);
@@ -41,15 +42,15 @@ export class Snake extends EventTarget {
     }
 
     if (newPositionInfo === BoardState.food) {
-      this.body.push(newPoint);
+      this.body.push(new GameObject(newPoint));
       this.triggerRedraw();
       this.dispatchEvent(new Event('foodEaten'));
       return;
     }
 
-    // empty position
+    // empty position on board
     this.body.shift();
-    this.body.push(newPoint);
+    this.body.push(new GameObject(newPoint));
     this.triggerRedraw();
   }
 

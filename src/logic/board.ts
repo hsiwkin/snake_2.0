@@ -1,7 +1,7 @@
 import { Point } from '../utils/point';
 import { clearBoard } from './graphics';
-import { Food } from '../gameobjects/food';
-import { Snake } from '../gameobjects/snake';
+import { Food } from '../gameobjects/food.class';
+import { Snake } from '../gameobjects/snake.class';
 
 export enum BoardState {
   empty,
@@ -61,7 +61,10 @@ export class Board {
       return false;
     }
 
-    return this.food.location.x === x && this.food.location.y === y;
+    return (
+      this.food.basicData.location.x === x &&
+      this.food.basicData.location.y === y
+    );
   }
 
   positionInfo({ x, y }: Point): BoardState {
@@ -74,5 +77,13 @@ export class Board {
     }
 
     return BoardState.empty;
+  }
+
+  getFoodColor(): string {
+    if (!this.food) {
+      throw new Error('Food object NOT INITIALIZED');
+    }
+
+    return this.food?.basicData.color;
   }
 }

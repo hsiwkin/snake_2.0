@@ -1,4 +1,4 @@
-import { randomColor } from '../utils/randomColor';
+import { randomColor } from '../utils/colors';
 import { Board } from './board';
 
 let ctx: CanvasRenderingContext2D;
@@ -40,11 +40,11 @@ const getPixelParams = (x: number, y: number) => {
   ] as const;
 };
 
-export const drawRect = (x: number, y: number) => {
+export const drawRect = (x: number, y: number, color?: string) => {
   const ctx = getContext();
   const rectParams = getPixelParams(x, y);
 
-  ctx.fillStyle = randomColor();
+  ctx.fillStyle = color ?? randomColor();
   ctx.fillRect(...rectParams);
 };
 

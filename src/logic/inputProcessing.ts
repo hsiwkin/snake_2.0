@@ -1,5 +1,5 @@
 import { Direction } from '../types';
-import { Snake } from '../gameobjects/snake';
+import { Snake } from '../gameobjects/snake.class';
 
 const UP_CODES = ['ArrowUp', 'KeyW'];
 const DOWN_CODES = ['ArrowDown', 'KeyS'];

@@ -1,9 +1,10 @@
 import { drawCircle } from '../logic/graphics';
 import { Board } from '../logic/board';
 import { Point } from '../utils/point';
+import { GameObject } from './partials/gameObject.class';
 
 export class Food extends EventTarget {
-  public location!: Point;
+  public basicData!: GameObject;
 
   constructor() {
     super();
@@ -11,7 +12,7 @@ export class Food extends EventTarget {
   }
 
   draw() {
-    const { x, y } = this.location;
+    const { x, y } = this.basicData.location;
 
     drawCircle(x, y);
   }
@@ -22,7 +23,7 @@ export class Food extends EventTarget {
     const x = Math.floor(Math.random() * width);
     const y = Math.floor(Math.random() * height);
 
-    this.location = new Point(x, y);
+    this.basicData.location = new Point(x, y);
     this.dispatchEvent(new Event('redraw'));
   }
 }

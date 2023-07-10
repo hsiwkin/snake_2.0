@@ -1,4 +1,4 @@
-export const randomColor = () => {
+export const randomColor = (): string => {
   const letters = '0123456789ABCDEF';
   let color = '#';
 
@@ -7,4 +7,8 @@ export const randomColor = () => {
   }
 
   return color;
+};
+
+export const colors = {
+  black: '#000000',
 };

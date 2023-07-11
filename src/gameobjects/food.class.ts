@@ -23,7 +23,7 @@ export class Food extends EventTarget {
     const x = Math.floor(Math.random() * width);
     const y = Math.floor(Math.random() * height);
 
-    this.basicData.location = new Point(x, y);
+    this.basicData = new GameObject(new Point(x, y));
     this.dispatchEvent(new Event('redraw'));
   }
 }

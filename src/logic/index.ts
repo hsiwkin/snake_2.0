@@ -3,9 +3,9 @@ import { Board } from './board';
 import { initializeContext } from './graphics';
 
 const startGame = () => {
-  const board = Board.initializeBoard();
-  const { snake, food } = board.getGameObjects();
   initializeContext();
+  const board = Board.getInstance();
+  const { snake, food } = board.getGameObjects();
 
   const drawGame = () => {
     Board.getInstance().clear();

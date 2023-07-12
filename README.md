@@ -9,5 +9,6 @@
   - [ ] queue direction commands (sometimes, when I change it fast some of them are lost)
 - [ ] add gif to README
 - [ ] connect it with heroku, add auto-deployment
+- [ ] Refactor GameObject (snake does not need to have color info in it, food does)
 
 

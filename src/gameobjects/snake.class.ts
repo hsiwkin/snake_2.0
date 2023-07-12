@@ -3,14 +3,17 @@ import { Point } from '../utils/point';
 import { drawRect } from '../logic/graphics';
 import { Direction } from '../types';
 import { GameObject } from './partials/gameObject.class';
+import { colors as colorPalette } from '../utils/colors';
 
 export class Snake extends EventTarget {
   private body: GameObject[] = [];
+  private colors: string[] = [];
   private _direction?: Direction;
 
   constructor() {
     super();
     const startingPoint = new GameObject(new Point(0, 0));
+    this.colors.push(colorPalette.black);
     this.body.push(startingPoint);
     this.triggerRedraw();
   }
@@ -27,8 +30,9 @@ export class Snake extends EventTarget {
   }
 
   draw() {
-    for (const part of this.body) {
-      drawRect(part.location.x, part.location.y, part.color);
+    const n = this.colors.length;
+    for (const [index, part] of this.body.entries()) {
+      drawRect(part.location.x, part.location.y, this.colors[n - index - 1]);
     }
   }
 
@@ -43,6 +47,8 @@ export class Snake extends EventTarget {
     }
 
     if (newPositionInfo === BoardState.food) {
+      const newColor = board.getFoodColor();
+      this.colors.push(newColor);
       this.body.push(new GameObject(newPoint, board.getFoodColor()));
       this.triggerRedraw();
       this.dispatchEvent(new Event('foodEaten'));

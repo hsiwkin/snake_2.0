@@ -36,13 +36,14 @@ export class Snake extends EventTarget {
     const head = this.body[this.headIndex].location;
     const newPoint = new Point(head.x + dirX, head.y + dirY);
 
-    const newPositionInfo = Board.getInstance().positionInfo(newPoint);
+    const board = Board.getInstance();
+    const newPositionInfo = board.positionInfo(newPoint);
     if (newPositionInfo === BoardState.notAvailable) {
       return;
     }
 
     if (newPositionInfo === BoardState.food) {
-      this.body.push(new GameObject(newPoint));
+      this.body.push(new GameObject(newPoint, board.getFoodColor()));
       this.triggerRedraw();
       this.dispatchEvent(new Event('foodEaten'));
       return;

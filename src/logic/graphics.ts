@@ -1,4 +1,3 @@
-import { randomColor } from '../utils/colors';
 import { Board } from './board';
 
 let ctx: CanvasRenderingContext2D;
@@ -44,15 +43,20 @@ export const drawRect = (x: number, y: number, color?: string) => {
   const ctx = getContext();
   const rectParams = getPixelParams(x, y);
 
-  ctx.fillStyle = color ?? randomColor();
+  if (color) {
+    ctx.fillStyle = color;
+  }
   ctx.fillRect(...rectParams);
 };
 
-export const drawCircle = (x: number, y: number) => {
+export const drawCircle = (x: number, y: number, color?: string) => {
   const ctx = getContext();
   const rectParams = getPixelParams(x, y);
 
-  ctx.fillStyle = randomColor();
+  if (color) {
+    ctx.fillStyle = color;
+  }
+
   ctx.beginPath();
   ctx.arc(
     rectParams[0] + canvasOptions.scale / 2,

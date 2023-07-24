@@ -1,5 +1,5 @@
-import { Direction } from '../types';
-import { Snake } from '../gameobjects/snake.class';
+import { Direction } from '../../types';
+import { Snake } from '../../gameobjects/snake.class';
 
 const UP_CODES = ['ArrowUp', 'KeyW'];
 const DOWN_CODES = ['ArrowDown', 'KeyS'];
@@ -26,6 +26,19 @@ const getDirection = (evt: KeyboardEvent): Direction | undefined => {
   }
 
   return undefined;
+};
+
+export const getOppositeDirection = (direction: Direction) => {
+  switch (direction) {
+    case Direction.Down:
+      return Direction.Up;
+    case Direction.Up:
+      return Direction.Down;
+    case Direction.Right:
+      return Direction.Left;
+    case Direction.Left:
+      return Direction.Right;
+  }
 };
 
 export const startInputProcessing = (snake: Snake) => {

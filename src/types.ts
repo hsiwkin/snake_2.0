@@ -4,5 +4,3 @@ export enum Direction {
   Left,
   Right,
 }
-
-export type Position = [number, number];

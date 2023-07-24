@@ -1,4 +1,4 @@
-import { startInputProcessing } from './inputProcessing';
+import { startInputProcessing } from './inputProcessing/inputProcessing';
 import { Board } from './board';
 import { initializeContext } from './graphics';
 

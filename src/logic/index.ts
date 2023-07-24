@@ -2,6 +2,10 @@ import { startInputProcessing } from './inputProcessing';
 import { Board } from './board';
 import { initializeContext } from './graphics';
 
+const framerate = 30;
+let lastRedraw: number;
+const second = 1_000;
+
 const startGame = () => {
   initializeContext();
   const board = Board.getInstance();
@@ -19,8 +23,17 @@ const startGame = () => {
 
   startInputProcessing(snake);
   drawGame();
+  lastRedraw = performance.now();
+  const move = (timestamp: number) => {
+    if (timestamp - lastRedraw > second / framerate) {
+      snake.autoMove();
+      lastRedraw = performance.now();
+    }
 
-  setInterval(() => snake.autoMove(), 200);
+    requestAnimationFrame(move);
+  };
+
+  requestAnimationFrame(move);
 };
 
 startGame();

@@ -4,6 +4,7 @@ import { drawRect } from '../logic/graphics';
 import { Direction } from '../types';
 import { GameObject } from './partials/gameObject.class';
 import { colors as colorPalette } from '../utils/colors';
+import { getOppositeDirection } from '../logic/inputProcessing/inputProcessing';
 
 export class Snake extends EventTarget {
   private body: GameObject[] = [];
@@ -24,6 +25,10 @@ export class Snake extends EventTarget {
 
   set direction(value: Direction | undefined) {
     if (value === undefined) {
+      return;
+    }
+
+    if (value === getOppositeDirection(this._direction)) {
       return;
     }
     this._direction = value;

@@ -28,7 +28,7 @@ const getDirection = (evt: KeyboardEvent): Direction | undefined => {
   return undefined;
 };
 
-export const getOppositeDirection = (direction: Direction) => {
+export const getOppositeDirection = (direction?: Direction) => {
   switch (direction) {
     case Direction.Down:
       return Direction.Up;
@@ -38,6 +38,8 @@ export const getOppositeDirection = (direction: Direction) => {
       return Direction.Left;
     case Direction.Left:
       return Direction.Right;
+    default:
+      return undefined;
   }
 };
 

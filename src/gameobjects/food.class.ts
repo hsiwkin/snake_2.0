@@ -5,11 +5,22 @@ import { GameObject } from './partials/gameObject.class';
 import { randomColor } from '../utils/colors';
 
 export class Food extends EventTarget {
-  public basicData!: GameObject;
+  public _basicData!: GameObject;
 
   constructor() {
     super();
     this.regeneratePosition();
+  }
+
+  private set basicData(value: GameObject) {
+    if (value.location.isEqual(this.basicData.location)) {
+      return;
+    }
+    this._basicData = value;
+  }
+
+  private get basicData() {
+    return this._basicData;
   }
 
   draw() {

@@ -7,7 +7,9 @@
 - add gif to README
 - connect it with heroku, add auto-deployment
 - Refactor GameObject (snake does not need to have color info in it, food does)
+- Write tests for regeneratePosition (it should not be possible to regenerate same position twice)
 
 ### In progress:
-- block generating the same position for food two times in a row
+
 ### Done:
+- block generating the same position for food two times in a row

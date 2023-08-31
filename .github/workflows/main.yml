@@ -16,3 +16,5 @@ jobs:
         run: pnpm install
       - name: Build an app
         run: pnpm build
+      - name: Deploy to GH Pages
+        uses: actions/deploy-pages@v2

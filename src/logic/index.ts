@@ -2,7 +2,7 @@ import { startInputProcessing } from './inputProcessing/inputProcessing';
 import { Board } from './board';
 import { initializeContext } from './graphics';
 
-const framerate = 30;
+const framerate = 10;
 let lastRedraw: number;
 const second = 1_000;
 

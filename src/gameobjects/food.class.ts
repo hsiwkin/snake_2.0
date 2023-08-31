@@ -13,13 +13,13 @@ export class Food extends EventTarget {
   }
 
   private set basicData(value: GameObject) {
-    if (value.location.isEqual(this.basicData.location)) {
+    if (value.location.isEqual(this.basicData?.location)) {
       return;
     }
     this._basicData = value;
   }
 
-  private get basicData() {
+  public get basicData() {
     return this._basicData;
   }
 

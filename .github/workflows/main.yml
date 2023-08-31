@@ -31,3 +31,6 @@ jobs:
           path: ./dist
       - name: Deploy to GH Pages
         uses: actions/deploy-pages@v2
+        with:
+          artifact_name: build
+

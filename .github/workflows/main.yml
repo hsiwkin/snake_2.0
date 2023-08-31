@@ -1,5 +1,5 @@
 name: GH Pages Deploy
-on: 
+on:
   push:
     branches: ["main"]
 jobs:
@@ -8,5 +8,5 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-      - name: Vite Github Pages Deployer
-        uses: skywarth/vite-github-pages-deployer@master
+      - name: Build an app
+        run: pnpm build

@@ -2,6 +2,12 @@ name: GH Pages Deploy
 on:
   push:
     branches: ["main"]
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -16,8 +22,10 @@ jobs:
         run: pnpm install
       - name: Build an app
         run: pnpm build
+      - name: Setup Pages
+        uses: actions/configure-pages@v3
       - name: Create an artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: build
           path: ./dist
